@@ -124,7 +124,13 @@ namespace PuppeteerSharp
 
             _contextIdToContext[contextPayload.Id] = context;
 
-            var frame = !string.IsNullOrEmpty(context.FrameId) ? Frames[context.FrameId] : null;
+            Frame frame = null;
+
+            if (!string.IsNullOrEmpty(context.FrameId))
+            {
+                Frames.TryGetValue(context.FrameId, out frame);
+            }
+
             if (frame != null && context.IsDefault)
             {
                 frame.SetDefaultContext(context);
